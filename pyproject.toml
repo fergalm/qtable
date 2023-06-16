@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "qtable"
+version = "0.1.0"
+description = "A Qt based table viewer for Python"
+authors = ["Fergal <fergal.mullally@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+PyQt5 = "*"
+pandas = "*"
+numpy = "*"
+ipdb = "*"
+
+[tool.poetry.dev-dependencies]
+frmdev = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
