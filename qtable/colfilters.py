@@ -150,6 +150,11 @@ class NumericFilter(AbstractColumnFilter):
         if text == "":
             return text
 
+        if text == "nan":
+            text = "~np.isfinite(self.col)"
+        elif text == "~nan":
+            text = "np.isfinite(self.col)"
+
         operators = "<= >= == != < >".split()
         for op in operators:
             text = re.subn(op, f"self.col {op}", text)[0]
