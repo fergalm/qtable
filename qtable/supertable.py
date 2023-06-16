@@ -1,7 +1,6 @@
-import numpy as np
-
 import PyQt5.QtWidgets as QtWidget
 
+import numpy as np
 import colfilters
 import newtable
 

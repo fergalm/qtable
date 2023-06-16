@@ -1,15 +1,14 @@
-import pandas as pd
-
 import PyQt5.QtWidgets as QtWidget
 import PyQt5.QtWidgets
+
+import pandas as pd
+import supertable
+import selector
 
 
 """
 Sketches at initialising a set of filters 
 """
-
-import supertable
-import selector
 
 
 

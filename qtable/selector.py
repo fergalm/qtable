@@ -1,5 +1,3 @@
-
-
 from ipdb import set_trace as idebug
 
 import PyQt5.QtWidgets as QtWidget

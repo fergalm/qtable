@@ -1,13 +1,10 @@
-from ipdb import set_trace as idebug
-import matplotlib.pyplot as plt
-from pprint import pprint
-import pandas as pd
-import numpy as np
-
 import PyQt5.QtWidgets as QtWidget
 import PyQt5.QtCore as QtCore
 import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets
+
+from ipdb import set_trace as idebug
+import numpy as np
 
 
 class TableWidget(PyQt5.QtWidgets.QTableWidget):
