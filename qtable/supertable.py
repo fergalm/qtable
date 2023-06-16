@@ -22,7 +22,7 @@ class SuperTableWidget(QtWidget.QDialog):
 
     def updateFilters(self):
         idx = self.collection.getFilteredIn()
-        print("In main window: ", np.sum(idx), " of ", len(idx))
+        # print("In main window: ", np.sum(idx), " of ", len(idx))
         self.table.drawFiltered(idx)
 
     def toggleColumn(self, sender_label, state):

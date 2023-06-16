@@ -52,10 +52,26 @@ class MainWin(QtWidget.QDialog):
             self.close()
 
 
+import loaders
+import sys
+def future_main(path):
+    app = PyQt5.QtWidgets.QApplication.instance()
+    if app is None:
+        app = PyQt5.QtWidgets.QApplication([])
+
+    loader = loaders.Loaders()
+    df = loader.load(path)
+
+    win = MainWin(df)
+    win.show()
+    return win
+
+
 def main():
     app = PyQt5.QtWidgets.QApplication.instance()
     if app is None:
         app = PyQt5.QtWidgets.QApplication([])
+
 
     df = pd.read_csv('../../orig/a01.csv', index_col=0)
     win = MainWin(df)

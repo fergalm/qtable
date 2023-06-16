@@ -29,7 +29,7 @@ class AbstractColumnFilter(QtWidget.QWidget):
         pass
 
     def onChange(self):
-        print(f"Change detected in {self.col}: {self}")
+        # print(f"Change detected in {self.col}: {self}")
         self.changed.emit()
 
     def show(self):
@@ -89,7 +89,6 @@ class CategoricalFilter(AbstractColumnFilter):
         self.combo.setMaximumWidth(width)
 
 
-
 class NumericFilter(AbstractColumnFilter):
     def __init__(self, col, parent=None):
         AbstractColumnFilter.__init__(self, parent)
@@ -108,7 +107,7 @@ class NumericFilter(AbstractColumnFilter):
         self.show()
 
     def onChange(self):
-        print(f"Change detected in {self.col}: {self}")
+        # print(f"Change detected in {self.col}: {self}")
         text = self.edit.text()
         cmd = self.parseText(text)
 
@@ -130,16 +129,16 @@ class NumericFilter(AbstractColumnFilter):
         except AttributeError:
             pass
 
-        print(idx)
+        # print(idx)
         if not isinstance(idx, np.ndarray):
             return
-        print("idx is numpy array")
+        # print("idx is numpy array")
 
         if len(idx) != len(self.col):
             return
-        print("idx is correct length")
+        # print("idx is correct length")
         self.idx = idx
-        print("Emiting")
+        # print("Emiting")
         self.changed.emit()
 
 
@@ -155,7 +154,7 @@ class NumericFilter(AbstractColumnFilter):
         operators = "<= >= == != < >".split()
         for op in operators:
             text = re.subn(op, f"self.col {op}", text)[0]
-            print( text)
+            # print( text)
         return text
 
     def getFilteredIn(self):
@@ -185,7 +184,7 @@ class StringFilter(AbstractColumnFilter):
         self.show()
 
     def onChange(self):
-        print(f"Change detected in {self.col}: {self}")
+        # print(f"Change detected in {self.col}: {self}")
 
         text = self.edit.text()
         num_char = len(text)
