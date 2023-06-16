@@ -58,7 +58,7 @@ def main():
     if app is None:
         app = PyQt5.QtWidgets.QApplication([])
 
-    df = pd.read_csv('../a01.csv', index_col=0)
+    df = pd.read_csv('../../orig/a01.csv', index_col=0)
     win = MainWin(df)
     win.show()
     return win

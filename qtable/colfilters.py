@@ -187,8 +187,8 @@ class StringFilter(AbstractColumnFilter):
 
         text = self.edit.text()
         num_char = len(text)
-        self.idx = text == self.col[:num_char]
-        print(f"{np.sum(self.idx)} of {len(self.idx)} are true")
+        self.idx = text == self.col.str[:num_char]
+        # print(f"string: {np.sum(self.idx)} of {len(self.idx)} are true")
         self.changed.emit()
 
     def getFilteredIn(self):
@@ -220,7 +220,7 @@ class FilterCollection(QtWidget.QWidget):
         self.layout.addWidget(col_filter)
 
     def onChange(self):
-        print("Filter collection is emiting a signal")
+        # print("Filter collection is emiting a signal")
         self.changed.emit()
 
     def getFilteredIn(self) -> np.ndarray:
@@ -229,14 +229,13 @@ class FilterCollection(QtWidget.QWidget):
         idx = f0.getFilteredIn()  #Get length of index array
         idx |= True
 
-        print("   ---    ")
+        # print("   ---    ")
         # print(f0.col.name,  np.sum(idx), " of ", len(f0.col))
         for i in range(0, self.layout.count()):
             f = self.layout.itemAt(i).widget()
             idx2 = f.getFilteredIn()
-            # print(f"anding with {idx2}, {type(idx2)}")
-            print(f.col.name, np.sum(idx2), " of ", len(idx2))
-            print("Idx is now:", np.sum(idx))
+            # print(f.col.name, np.sum(idx2), " of ", len(idx2))
+            # print("Idx is now:", np.sum(idx))
 
             idx &= idx2
         return idx

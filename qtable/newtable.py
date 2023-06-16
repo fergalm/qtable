@@ -12,13 +12,16 @@ import PyQt5.QtWidgets
 
 class TableWidget(PyQt5.QtWidgets.QTableWidget):
     def __init__(self, df, num=1000, parent=None):
+        self.df = df
         self.num = num
+
         self.include_row = np.ones(len(self.df), dtype=bool)
+        self.max_width = 1000
 
         self.nrow = len(self.df)
         self.ncol = len(self.df.columns)
         super().__init__(self.nrow, self.ncol, parent=parent)
-        self.max_width = 1000
+
 
         # PyQt5.QtWidgets.QTableWidget(self.nrow, self.ncol)
         self.set_table_elements(self.df)
