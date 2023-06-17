@@ -1,8 +1,8 @@
 import PyQt5.QtWidgets as QtWidget
 
 import numpy as np
-import colfilters
-import newtable
+from . import colfilters
+from . import newtable
 
 class SuperTableWidget(QtWidget.QDialog):
     def __init__(self, df, num=1000, parent=None):

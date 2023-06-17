@@ -1,5 +1,5 @@
-
-class Loaders:
+from importlib import import_module
+class Loader:
     """A class to load data from filse of different formats, that doesn't fail when
     modules to load those files don't exist
 
@@ -22,10 +22,19 @@ class Loaders:
         except KeyError:
             raise ValueError(f"No loader defined for files of type {filetype}")
 
-        package = ".".join(importstr[:-1])
-        __import__(package)
-        func = eval(importstr)
+        package = ".".join(importstr.split('.')[:-1])
+        func = importstr.split('.')[-1]
+        pkg = import_module(package)
+        # print(pkg)
+        # func = eval(importstr)
+        # func = eval(f"{pkg}.{func}")
+
+        try:
+            func = pkg.__dict__[func]
+        except KeyError:
+            raise ValueError(f"Package {package} has no function called {func}")
         return func(path)
+
 
 
 def get_filetype(path):

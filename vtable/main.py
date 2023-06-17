@@ -2,9 +2,14 @@ import PyQt5.QtWidgets as QtWidget
 import PyQt5.QtWidgets
 
 import pandas as pd
-import supertable
-import selector
+from . import supertable
+from . import selector
+from . import loaders
 
+# Ensure PyQt is initialised
+app = PyQt5.QtWidgets.QApplication.instance()
+if app is None:
+    app = PyQt5.QtWidgets.QApplication([])
 
 """
 Sketches at initialising a set of filters 
@@ -52,8 +57,6 @@ class MainWin(QtWidget.QDialog):
             self.close()
 
 
-import loaders
-import sys
 def future_main(path):
     app = PyQt5.QtWidgets.QApplication.instance()
     if app is None:
@@ -67,16 +70,20 @@ def future_main(path):
     return win
 
 
+
+
+import sys
+
 def main():
-    app = PyQt5.QtWidgets.QApplication.instance()
-    if app is None:
-        app = PyQt5.QtWidgets.QApplication([])
+    if len(sys.argv) != 2:
+        print("Usage: vtable filename")
+        sys.exit(1)
 
+    path = sys.argv[1]
+    loader = loaders.Loader()
+    df = loader.load(path)
 
-    df = pd.read_csv('../../orig/a01.csv', index_col=0)
     win = MainWin(df)
     win.show()
-    return win
+    app.exec()
 
-if __name__ == "__main__":
-    main()

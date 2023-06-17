@@ -6,9 +6,9 @@ import re
 import PyQt5.QtWidgets as QtWidget
 import PyQt5.QtCore as QtCore
 
-from checkablecombo import CheckableComboBox
+from .checkablecombo import CheckableComboBox
 
-
+QtCore.Signal = QtCore.pyqtSignal
 """
 Abstract and concreate column filter classes. 
 
@@ -76,8 +76,6 @@ class CategoricalFilter(AbstractColumnFilter):
         print(np.where(idx == False))
         print(idx)
 
-        #import pdb; pdb.set_trace()
-        # print(idx[:10])
         try:
             self.idx = idx.values
         except AttributeError:
@@ -119,9 +117,9 @@ class NumericFilter(AbstractColumnFilter):
         try:
             # This, of course, hideously insecure
             idx = eval(cmd)
-            print("command was parsed")
-        except SyntaxError:
-            print("Command failed to parse")
+            # print("command was parsed")
+        except (SyntaxError, NameError):
+            # print("Command failed to parse")
             return
 
         try:
