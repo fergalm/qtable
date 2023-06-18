@@ -185,9 +185,9 @@ class StringFilter(AbstractColumnFilter):
         # print(f"Change detected in {self.col}: {self}")
 
         text = self.edit.text()
-        num_char = len(text)
-        self.idx = text == self.col.str[:num_char]
-        # print(f"string: {np.sum(self.idx)} of {len(self.idx)} are true")
+        # num_char = len(text)
+        # self.idx = text == self.col.str[:num_char]
+        self.idx = self.col.str.contains(text)
         self.changed.emit()
 
     def getFilteredIn(self):

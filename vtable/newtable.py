@@ -13,7 +13,7 @@ class TableWidget(PyQt5.QtWidgets.QTableWidget):
         self.num = num
 
         self.include_row = np.ones(len(self.df), dtype=bool)
-        self.max_width = 1000
+        self.max_width = 10000
 
         self.nrow = len(self.df)
         self.ncol = len(self.df.columns)
@@ -68,6 +68,7 @@ class TableWidget(PyQt5.QtWidgets.QTableWidget):
 
         self.resizeColumnsToContents()
         self.resizeRowsToContents()
+        self.set_size_policy()
 
     def resetTable(self):
         """Clear data from the table"""
@@ -75,12 +76,12 @@ class TableWidget(PyQt5.QtWidgets.QTableWidget):
         self.setRowCount(0)
 
     def set_size_policy(self):
-        width_pix = self.horizontalHeader().length() + self.verticalHeader().width() + 20
+        width_pix = self.horizontalHeader().length() + self.verticalHeader().width() + 200
         height_pix = self.verticalHeader().length() + self.horizontalHeader().width()
         self.setMaximumSize(width_pix, height_pix)
         self.max_width = width_pix
 
-        width_pix = min(width_pix, 1000)
+        width_pix = min(width_pix, 2000)
         height_pix = min(height_pix, 1000)
         self.resize(width_pix, height_pix)
 
