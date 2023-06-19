@@ -10,9 +10,9 @@ from .checkablecombo import CheckableComboBox
 
 QtCore.Signal = QtCore.pyqtSignal
 """
-Abstract and concreate column filter classes. 
+Abstract and concreate column filter classes.
 
-These are QWidget objects that also encode the logic of which rows should be filtered in and out 
+These are QWidget objects that also encode the logic of which rows should be filtered in and out
 """
 
 
@@ -105,6 +105,16 @@ class NumericFilter(AbstractColumnFilter):
         self.show()
 
     def onChange(self):
+        """
+
+        o fail(?) on semi-colons
+        o Split on '&' and '|', maybe a special xor character?
+        o parse seach subsection independently
+        o Look for nan and ~nan
+        o Wrap in brackets
+        o join
+        o eval
+        """
         # print(f"Change detected in {self.col}: {self}")
         text = self.edit.text()
         cmd = self.parseText(text)
@@ -156,7 +166,7 @@ class NumericFilter(AbstractColumnFilter):
         return text
 
     def getFilteredIn(self):
-        try:
+        # try:
             return self.idx.values.copy()
         except AttributeError:
             return self.idx.copy()
@@ -185,9 +195,9 @@ class StringFilter(AbstractColumnFilter):
         # print(f"Change detected in {self.col}: {self}")
 
         text = self.edit.text()
-        num_char = len(text)
-        self.idx = text == self.col.str[:num_char]
-        # print(f"string: {np.sum(self.idx)} of {len(self.idx)} are true")
+        # num_char = len(text)
+        # self.idx = text == self.col.str[:num_char]
+        self.idx = self.col.str.contains(text).values
         self.changed.emit()
 
     def getFilteredIn(self):
