@@ -1,4 +1,3 @@
-
 import PyQt5.QtWidgets
 
 # Ensure PyQt is initialised
