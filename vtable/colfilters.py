@@ -166,7 +166,7 @@ class NumericFilter(AbstractColumnFilter):
         return text
 
     def getFilteredIn(self):
-        # try:
+        try:
             return self.idx.values.copy()
         except AttributeError:
             return self.idx.copy()

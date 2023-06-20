@@ -31,6 +31,7 @@ class MainWin(QtWidget.QDialog):
     def create_layout(self, df, num, title):
         self.button = QtWidget.QPushButton("Show/hide Columns")
         self.button.clicked.connect(self.toggle_selector)
+
         self.table = supertable.SuperTableWidget(df, num=num)
 
         layout = QtWidget.QVBoxLayout()
