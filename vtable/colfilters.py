@@ -65,16 +65,16 @@ class CategoricalFilter(AbstractColumnFilter):
     def onChange(self):
         print("Getting selection for CatFilter for ", self.col.name)
         selected = self.combo.getSelectedItems()
-        print(selected)
-        print(self.col.astype(str).values[:10])
-        print(self.col.astype(str).values[-10:])
+        # print(selected)
+        # print(self.col.astype(str).values[:10])
+        # print(self.col.astype(str).values[-10:])
         idx = self.col.astype(str).isin(selected)
 
-        print( np.all(self.col.astype(str) == '0'))
-        print(np.sum(self.col.astype(str) == '0'))
-        print(np.sum(self.col.astype(str) == '1'))
-        print(np.where(idx == False))
-        print(idx)
+        # print( np.all(self.col.astype(str) == '0'))
+        # print(np.sum(self.col.astype(str) == '0'))
+        # print(np.sum(self.col.astype(str) == '1'))
+        # print(np.where(idx == False))
+        # print(idx)
 
         try:
             self.idx = idx.values
@@ -146,7 +146,7 @@ class NumericFilter(AbstractColumnFilter):
             return
         # print("idx is correct length")
         self.idx = idx
-        print(f"Emiting: Indices are {np.where(idx)[0]}")
+        # print(f"Emiting: Indices are {np.where(idx)[0]}")
         self.changed.emit()
 
 
@@ -197,7 +197,12 @@ class StringFilter(AbstractColumnFilter):
         text = self.edit.text()
         # num_char = len(text)
         # self.idx = text == self.col.str[:num_char]
-        self.idx = self.col.str.contains(text).values
+
+        #Works around an edge case of Nans appearing in a text field
+        self.idx = self.col.str.contains(text).values.astype(bool)
+        # self.idx[~np.isfinite(self.idx)] = False 
+        
+        print("In string filter: ", self.idx)
         self.changed.emit()
 
     def getFilteredIn(self):
@@ -245,7 +250,8 @@ class FilterCollection(QtWidget.QWidget):
             idx2 = f.getFilteredIn()
             # print(f.col.name, np.sum(idx2), " of ", len(idx2))
             # print("Idx is now:", np.sum(idx))
-
+            print(i, idx.dtype)
+            print(i, f, idx2.dtype)
             idx &= idx2
         return idx
 
