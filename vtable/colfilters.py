@@ -146,7 +146,7 @@ class NumericFilter(AbstractColumnFilter):
             return
         # print("idx is correct length")
         self.idx = idx
-        # print("Emiting")
+        print(f"Emiting: Indices are {np.where(idx)[0]}")
         self.changed.emit()
 
 

@@ -26,7 +26,7 @@ class MainWin(QtWidget.QDialog):
         self.keyReleaseEvent = self.process_key_press
         self.title = "Super Table"
         self.show()
-        self.table.table.draw()  #Work around an initial-size issue
+        self.table.tableView.resizeRowsToContents()  #Work around an initial-size issue
 
     def create_layout(self, df, num, title):
         self.button = QtWidget.QPushButton("Show/hide Columns")

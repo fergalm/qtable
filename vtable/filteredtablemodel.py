@@ -22,27 +22,27 @@ class FilteredTableModel(QtCore.QAbstractTableModel):
     def __init__(self, df, parent=None):
         QtCore.QAbstractTableModel.__init__(self, parent)
         self.orig_df = df
-        self.sorted_df = df
+        self.display_df = df 
 
-        self.idx = np.ones(len(df), dtype=bool)
 
     def setFiltered(self, idx):
         """Set the values of the original dataframe which should be displayed"""
         assert len(idx) == len(self.orig_df)
         try:
-            self.idx = idx.values
+            idx = idx.values
         except AttributeError:
-            self.idx = idx
-        print(f"In FTM, idx has {np.sum(self.idx)} True members")
+            pass 
+
+        self.display_df = self.orig_df[idx]
         self.layoutChanged.emit()
 
     def rowCount(self, index):
-        # return len(self.df)
-        return np.sum(self.idx)
+        return len(self.display_df)
+        # return np.sum(self.idx)
 
 
     def columnCount(self, index):
-        return len(self.orig_df.columns)
+        return len(self.display_df.columns)
 
     def data(self, index, role):
         if role == QtCore.Qt.DisplayRole:
@@ -58,14 +58,17 @@ class FilteredTableModel(QtCore.QAbstractTableModel):
         row = index.row()
         col = index.column()
 
-        colName = self.sorted_df.columns[col]
+        colName = self.display_df.columns[col]
 
-        colData = self.sorted_df[colName]
+        colData = self.display_df[colName]
         # colData = colData[self.idx]  #Do the filtering
 
         elt = colData.iloc[row]
 
-        print(f"Displaying data for c,r = {col},{row}")
+        # if colName == 'EPSG_PCS_CODE':
+        #     print(self.display_df.iloc[row])
+        #     print(elt)
+        # # print(f"Displaying data for c,r = {col},{row}")
         if elt is None:
             return ""
         try:
@@ -87,11 +90,10 @@ class FilteredTableModel(QtCore.QAbstractTableModel):
         # item.setFlags( item.flags() & ~QtCore.Qt.EditRole)
 
     def sort(self, colNum, order):
-        filtered_df = self.orig_df[self.idx]
-        colName = self.sorted_df.columns[colNum]
+        colName = self.orig_df.columns[colNum]
 
         order = order == QtCore.Qt.AscendingOrder
-        self.sorted_df = filtered_df.sort_values(colName, ascending=order)
+        self.display_df = self.display_df.sort_values(colName, ascending=order)
         self.layoutChanged.emit()
 
 
