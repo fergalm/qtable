@@ -3,7 +3,7 @@ import PyQt5.QtCore as QtCore
 import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets
 
-from ipdb import set_trace as idebug
+# from ipdb import set_trace as idebug
 import numpy as np
 
 

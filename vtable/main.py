@@ -82,10 +82,13 @@ def main():
         sys.exit(1)
 
     path = sys.argv[1]
+    submain(path)
+    app.exec()
+
+def submain(path):
     loader = loaders.Loader()
     df = loader.load(path)
 
     win = MainWin(df)
     win.show()
-    app.exec()
 

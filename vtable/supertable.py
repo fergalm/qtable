@@ -89,6 +89,7 @@ def create_filter_collection(df):
 
 
 def create_column_filter(df, c):
+    # import pdb; pdb.set_trace()
     col = df[c]
     num_values = len(set(col))
     if num_values < 10:
