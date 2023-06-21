@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vtable"
-version = "0.1.5"
+version = "0.1.6"
 description = "A Qt based table viewer for Python"
 authors = ["fergal <fergal.mullally@gmail.com>"]
 license = "GPL 3.0"
