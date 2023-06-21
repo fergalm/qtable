@@ -12,7 +12,7 @@ import pandas as pd
 import numpy as np
 
 
-import PyQt5.QtWidgets as QtWidget
+import PyQt5.QtWidgets as QtWidgets
 import PyQt5.QtCore as QtCore
 import PyQt5.Qt as Qt
 import PyQt5.QtGui as QtGui
@@ -24,6 +24,8 @@ class FilteredTableModel(QtCore.QAbstractTableModel):
         self.orig_df = df
         self.display_df = df 
 
+    def getColumns(self) -> list:
+        return list(self.orig_df.columns)
 
     def setFiltered(self, idx):
         """Set the values of the original dataframe which should be displayed"""
@@ -36,6 +38,16 @@ class FilteredTableModel(QtCore.QAbstractTableModel):
         self.display_df = self.orig_df[idx]
         self.layoutChanged.emit()
 
+    def headerData(self, section, orientation , role):
+        if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
+            QItem = QtWidgets.QTableWidgetItem  #Mnumonic
+            name = self.orig_df.columns[section]
+            return QtCore.QVariant(name)
+            # return QItem("%i" %(section))
+
+        #Default to base class behaviour
+        return QtCore.QAbstractTableModel.headerData(self, section, orientation, role)
+        
     def rowCount(self, index):
         return len(self.display_df)
         # return np.sum(self.idx)
@@ -97,9 +109,9 @@ class FilteredTableModel(QtCore.QAbstractTableModel):
         self.layoutChanged.emit()
 
 
-class MainWin(QtWidget.QDialog):
+class MainWin(QtWidgets.QDialog):
     def __init__(self, df, num=1000, title="Dataframe", parent=None):
-        QtWidget.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.create_layout(df, num, title)
 
         self.keyReleaseEvent = self.process_key_press
@@ -107,16 +119,16 @@ class MainWin(QtWidget.QDialog):
         self.show()
 
     def create_layout(self, df, num, title):
-        self.button = QtWidget.QPushButton("Show/hide Columns")
+        self.button = QtWidgets.QPushButton("Show/hide Columns")
         # self.button.clicked.connect(self.toggle_selector)
 
         self.model = FilteredTableModel(df)
 
-        self.tableView = QtWidget.QTableView()
+        self.tableView = QtWidgets.QTableView()
         self.tableView.setModel(self.model)
         self.tableView.setSortingEnabled(True)
 
-        layout = QtWidget.QVBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         layout.addWidget(self.tableView)
         self.setLayout(layout)
 
@@ -141,9 +153,9 @@ class MainWin(QtWidget.QDialog):
 
 
 def main(df):
-    app = QtWidget.QApplication.instance()
+    app = QtWidgets.QApplication.instance()
     if app is None:
-        app = QtWidget.QApplication([])
+        app = QtWidgets.QApplication([])
 
 
     win = MainWin(df)

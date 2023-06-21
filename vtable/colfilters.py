@@ -59,7 +59,7 @@ class CategoricalFilter(AbstractColumnFilter):
 
 
     def getFilteredIn(self) -> np.ndarray:
-        print('Debug GFI', self.col.name, np.sum(self.idx))
+        # print('Debug GFI', self.col.name, np.sum(self.idx))
         return self.idx.copy()
 
     def onChange(self):
@@ -80,7 +80,7 @@ class CategoricalFilter(AbstractColumnFilter):
             self.idx = idx.values
         except AttributeError:
             self.idx = idx
-        print('Debug', self.col.name, np.sum(idx))
+        # print('Debug', self.col.name, np.sum(idx))
         self.changed.emit()
 
     def setWidth(self, width):
@@ -202,7 +202,7 @@ class StringFilter(AbstractColumnFilter):
         self.idx = self.col.str.contains(text).values.astype(bool)
         # self.idx[~np.isfinite(self.idx)] = False 
         
-        print("In string filter: ", self.idx)
+        # print("In string filter: ", self.idx)
         self.changed.emit()
 
     def getFilteredIn(self):
@@ -250,8 +250,8 @@ class FilterCollection(QtWidget.QWidget):
             idx2 = f.getFilteredIn()
             # print(f.col.name, np.sum(idx2), " of ", len(idx2))
             # print("Idx is now:", np.sum(idx))
-            print(i, idx.dtype)
-            print(i, f, idx2.dtype)
+            # print(i, idx.dtype)
+            # print(i, f, idx2.dtype)
             idx &= idx2
         return idx
 

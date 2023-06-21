@@ -1,4 +1,6 @@
 import PyQt5.QtWidgets as QtWidget
+import PyQt5.QtCore as QtCore
+
 
 import numpy as np
 from . import colfilters
@@ -19,7 +21,9 @@ class SuperTableWidget(QtWidget.QDialog):
         self.tableView = QtWidget.QTableView()
         self.tableView.setModel(self.tableModel)
         self.tableView.setSortingEnabled(True)
-
+        # self.tableView.setHorizontalHeaderLabels(df.columns)
+        self.tableView.resizeColumnsToContents()
+        
         # self.table = newtable.TableWidget(df, num=num)
         layout = QtWidget.QVBoxLayout()
         layout.addWidget(self.collection)
@@ -29,18 +33,19 @@ class SuperTableWidget(QtWidget.QDialog):
 
     def updateFilters(self):
         idx = self.collection.getFilteredIn()
-        print("In Supertable.updateFilters: ", np.sum(idx), " of ", len(idx))
+        # print("In Supertable.updateFilters: ", np.sum(idx), " of ", len(idx))
         self.tableModel.setFiltered(idx)
 
     def toggleColumn(self, sender_label, state):
-        cols = self.table.df.columns
+        #cols = self.table.df.columns
+        cols = self.tableModel.getColumns()
         for i in range(self.ncol):
             if cols[i] == sender_label:
                 if state:
-                    self.table.showColumn(i)
+                    self.tableView.showColumn(i)
                     self.collection.showColumn(i)
                 else:
-                    self.table.hideColumn(i)
+                    self.tableView.hideColumn(i)
                     self.collection.hideColumn(i)
 
     def showAll(self):
@@ -77,7 +82,7 @@ def create_filter_collection(df):
     filter_list = []
     for c in cols:
         filter_list.append(create_column_filter(df, c))
-        print(c, filter_list[-1])
+        # print(c, filter_list[-1])
 
     collection = colfilters.FilterCollection(filter_list)
     return collection
