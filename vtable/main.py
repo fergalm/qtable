@@ -59,21 +59,8 @@ class MainWin(QtWidget.QDialog):
             self.close()
 
 
-def future_main(path):
-    app = PyQt5.QtWidgets.QApplication.instance()
-    if app is None:
-        app = PyQt5.QtWidgets.QApplication([])
-
-    loader = loaders.Loaders()
-    df = loader.load(path)
-
-    win = MainWin(df)
-    win.show()
-    return win
-
-
-
-
+import pkg_resources
+import argparse 
 import sys
 
 def main():
@@ -81,14 +68,36 @@ def main():
         print("Usage: vtable filename")
         sys.exit(1)
 
-    path = sys.argv[1]
+    parser = argparse.ArgumentParser(
+        prog='vtable',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description="""
+Table Viewer with column filters.
+See https://github.com/fergalm/vtable
+            """
+    )
+    parser.add_argument('-v', '--version', action='version', version=get_version())
+    parser.add_argument('filename'),
+                        
+    args = parser.parse_args()
+
+    path = args.filename
     submain(path)
     app.exec()
+
 
 def submain(path):
     loader = loaders.Loader()
     df = loader.load(path)
 
+    print(pkg_resources.get_distribution('vtable'))
     win = MainWin(df)
     win.show()
 
+
+def get_version():
+    return "%(prog)s " + str(pkg_resources.get_distribution('vtable').version)
+
+
+if __name__ == "__main__":
+    main()
